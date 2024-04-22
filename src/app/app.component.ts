@@ -8,7 +8,7 @@ import { ChipRemoveEvent } from "@progress/kendo-angular-buttons";
 
 
 import { globeIcon, SVGIcon } from "@progress/kendo-svg-icons";
-import { FormArray, FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -84,7 +84,12 @@ export class AppComponent implements OnInit {
             elemnts: [...filterArray]
           });
         }
+
+        let groupDatas = this.filterGroups.filter((o: any) => o.groupID === filterData.groupID);
+        groupDatas[0].appliedCount = filterArray.length;
+
       }
+
       formDataCopy.filters = [...filteredList];
       console.log('Filtered', formDataCopy);
     });
@@ -97,6 +102,7 @@ export class AppComponent implements OnInit {
   public populatFormBuilder(dataList: any[]) {
     for (let grpElement of dataList) {
       const requirementForm = this.fb.group({
+        groupID: grpElement.groupID,
         groupName: [grpElement.groupName],
         elemnts: this.fb.array([])
       });
@@ -108,7 +114,7 @@ export class AppComponent implements OnInit {
           filterName: [groupdata.name],
           filter: [false]
         });
-        
+
         (requirementForm.controls.elemnts as FormArray).push(childForm);
       }
     }
@@ -140,9 +146,22 @@ export class AppComponent implements OnInit {
   }
 
 
-  public onRemove(e: ChipRemoveEvent,filterGroup:any): void {
+  public onRemove(e: ChipRemoveEvent, filterGroup: any): void {
     e.originalEvent.stopPropagation();
-    console.log(filterGroup);
-
+    for (let parentControl of this.filterFormGroups.controls) {
+      if (parentControl instanceof FormGroup) {
+        if (parentControl.controls["groupID"].getRawValue() === filterGroup.groupID) {
+          let elements = (parentControl.controls["elemnts"] as FormArray)
+          for (let formElement of elements.controls) {
+            if (formElement instanceof FormGroup) {
+              formElement.controls["filter"].setValue(false);
+            }
+          }
+        }
+      }
+    }
+    
+    let groupDatas = this.filterGroups.filter((o: any) => o.groupID === filterGroup.groupID);
+    groupDatas[0].appliedCount = 0;
   }
 }
