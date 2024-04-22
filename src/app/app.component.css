@@ -1,0 +1,77 @@
+.panelbar-wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.k-chip {
+    margin-right: 10px;
+}
+
+.custom-content {
+    color: #3366cc;
+    font-weight: bold;
+}
+
+::ng-deep .k-panelbar>.k-item>.k-link.k-selected,
+::ng-deep .k-panelbar>.k-panelbar-header>.k-link.k-selected {
+    color: black;
+    background-color: #f9f9f9;
+}
+
+::ng-deep .k-panelbar>.k-item>.k-link.k-selected:hover,
+::ng-deep .k-panelbar>.k-item>.k-link.k-selected.k-hover,
+::ng-deep .k-panelbar>.k-panelbar-header>.k-link.k-selected:hover,
+::ng-deep .k-panelbar>.k-panelbar-header>.k-link.k-selected.k-hover {
+    background-color: #f9f9f9;
+}
+
+::ng-deep .k-panelbar>.k-item>.k-link,
+::ng-deep .k-panelbar>.k-panelbar-header>.k-link {
+    color: black;
+    background-color: #ffffff;
+}
+
+.teamMate:after {
+    content: ".";
+    display: block;
+    height: 0;
+    line-height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.teamMate h2 {
+    font-size: 1.3em;
+    font-weight: normal;
+    padding-top: 17px;
+    margin: 0;
+}
+
+.teamMate p {
+    margin: 0;
+    font-size: 0.8em;
+}
+
+.teamMate img {
+    display: inline-block;
+    vertical-align: top;
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+}
+
+.mate-info {
+    display: inline-block;
+    vertical-align: top;
+}
+
+
+.k-icon {
+    display: block;
+    clear: both;
+    margin: 0 auto 10px;
+    color: #656565;
+    font-size: 32px;
+}
