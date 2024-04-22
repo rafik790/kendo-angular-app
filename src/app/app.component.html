@@ -27,292 +27,50 @@
 
 <div class="container-fluid">
   <h1>Hello Kendo UI for Angular!</h1>
+
+
   <div class="row">
     <div class="col col-lg-4">
       <div class="row">
-        <div class="panelbar-wrapper">
-          <kendo-panelbar>
-            <kendo-panelbar-item [expanded]="false">
-              <ng-template kendoPanelBarItemTitle>
-                <div class="d-flex bd-highlight w-100">
-                  <div class="col col-lg-6">Grade</div>
-                  <div class="col col-lg-6 text-end">
-                    <kendo-chip [removable]="true" (remove)="onRemove($event)">
-                      <span class="custom-content">1 Applied</span>
-                    </kendo-chip>
+        <div class="col col-12">
+          <form autocomplete="off" [formGroup]="searchForm">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Content Library</label>
+              <input type="text" class="form-control" name="title" formControlName="contentLibrary" />
+            </div>
+            <div class="form-group" style="margin-bottom: 10px;">
+              <label for="exampleInputEmail1">Tier</label>
+              <input type="text" class="form-control" name="title" formControlName="tier" />
+            </div>
+            <ng-container formArrayName="filters">
+              <div class="form-group" *ngFor="let filterGroup of filterGroups;let i = index" [formGroupName]="i">
+                <kendo-expansionpanel [expanded]="false" expandIcon="k-icon k-font-icon k-i-plus"
+                  collapseIcon="fa fa-minus">
+                  <ng-template kendoExpansionPanelTitleDirective>
+                    <div class="d-flex bd-highlight w-100">
+                      <div class="col col-lg-6">{{filterGroup.groupName}}</div>
+                      <div class="col col-lg-6 text-end">
+                        <kendo-chip [removable]="true" (remove)="onRemove($event,filterGroup)">
+                          <span class="custom-content">{{filterGroup.appliedCount}} Applied</span>
+                        </kendo-chip>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <div class="row ms-2">
+                    <ng-container formArrayName="elemnts">
+                      <div class="form-check mt-1" *ngFor="let groupElement of filterGroup.dataList;let childCnt = index"  [formGroupName]="childCnt">
+                        <input class="form-check-input" type="checkbox" value="" id="grade1" formControlName="filter">
+                        <label class="form-check-label" for="grade1">
+                          {{groupElement.name}}
+                        </label>
+                      </div>
+                    </ng-container>
+                    
                   </div>
-                </div>
-              </ng-template>
-              <ng-template kendoPanelBarContent>
-                <div class="row ms-2">
-                  <div class="form-check mt-1">
-                    <input class="form-check-input" type="checkbox" value="" id="grade1">
-                    <label class="form-check-label" for="grade1">
-                      Kindergarten
-                    </label>
-                  </div>
-                  <div class="form-check mt-1">
-                    <input class="form-check-input" type="checkbox" value="" id="grade2">
-                    <label class="form-check-label" for="grade2">
-                      Kindergarten-1
-                    </label>
-                  </div>
-                </div>
-
-              </ng-template>
-            </kendo-panelbar-item>
-            <kendo-panelbar-item [expanded]="false">
-              <ng-template kendoPanelBarItemTitle>
-                <div class="d-flex bd-highlight w-100">
-                  <div class="col col-lg-6">Domain</div>
-                  <div class="col col-lg-6 text-end">
-                    <kendo-chip [removable]="true" (remove)="onRemove($event)">
-                      <span class="custom-content">1 Applied</span>
-                    </kendo-chip>
-                  </div>
-                </div>
-              </ng-template>
-              <ng-template kendoPanelBarContent>
-                <div class="row ms-2">
-                  <div class="form-check mt-1">
-                    <input class="form-check-input" type="checkbox" value="" id="domain1">
-                    <label class="form-check-label" for="domain1">
-                      Domain - 1
-                    </label>
-                    <span class="k-icon k-font-icon k-i-arrow-60-down k-i-kpi-trend-decrease"></span>
-                  </div>
-                  <div class="form-check mt-1">
-                    <input class="form-check-input" type="checkbox" value="" id="domain2">
-                    <label class="form-check-label" for="domain2">
-                      Domain - 2
-                    </label>
-                  </div>
-                </div>
-              </ng-template>
-            </kendo-panelbar-item>
-            <kendo-panelbar-item [expanded]="false">
-              <ng-template kendoPanelBarItemTitle>
-                <div class="d-flex bd-highlight w-100">
-                  <div class="col col-lg-6">Group Size</div>
-                  <div class="col col-lg-6 text-end">
-                    <kendo-chip [removable]="true" (remove)="onRemove($event)">
-                      <span class="custom-content">1 Applied</span>
-                    </kendo-chip>
-                  </div>
-                </div>
-              </ng-template>
-              <ng-template kendoPanelBarContent>
-                <div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('andrew')" alt="Andrew Fuller" />
-                    <span class="mate-info">
-                      <h2>Andrew Fuller</h2>
-                      <p>Team Lead</p>
-                    </span>
-                  </div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('nancy')" alt="Nancy Leverling" />
-                    <span class="mate-info">
-                      <h2>Nancy Leverling</h2>
-                      <p>Sales Associate</p>
-                    </span>
-                  </div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('robert')" alt="Robert King" />
-                    <span class="mate-info">
-                      <h2>Robert King</h2>
-                      <p>Business System Analyst</p>
-                    </span>
-                  </div>
-                </div>
-              </ng-template>
-            </kendo-panelbar-item>
-            <kendo-panelbar-item [expanded]="false">
-              <ng-template kendoPanelBarItemTitle>
-                <div class="d-flex bd-highlight w-100">
-                  <div class="col col-lg-6">Duration</div>
-                  <div class="col col-lg-6 text-end">
-                    <kendo-chip [removable]="true" (remove)="onRemove($event)">
-                      <span class="custom-content">1 Applied</span>
-                    </kendo-chip>
-                  </div>
-                </div>
-              </ng-template>
-              <ng-template kendoPanelBarContent>
-                <div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('andrew')" alt="Andrew Fuller" />
-                    <span class="mate-info">
-                      <h2>Andrew Fuller</h2>
-                      <p>Team Lead</p>
-                    </span>
-                  </div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('nancy')" alt="Nancy Leverling" />
-                    <span class="mate-info">
-                      <h2>Nancy Leverling</h2>
-                      <p>Sales Associate</p>
-                    </span>
-                  </div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('robert')" alt="Robert King" />
-                    <span class="mate-info">
-                      <h2>Robert King</h2>
-                      <p>Business System Analyst</p>
-                    </span>
-                  </div>
-                </div>
-              </ng-template>
-            </kendo-panelbar-item>
-            <kendo-panelbar-item [expanded]="false">
-              <ng-template kendoPanelBarItemTitle>
-                <div class="d-flex bd-highlight w-100">
-                  <div class="col col-lg-6">Metarials</div>
-                  <div class="col col-lg-6 text-end">
-                    <kendo-chip [removable]="true" (remove)="onRemove($event)">
-                      <span class="custom-content">1 Applied</span>
-                    </kendo-chip>
-                  </div>
-                </div>
-              </ng-template>
-              <ng-template kendoPanelBarContent>
-                <div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('andrew')" alt="Andrew Fuller" />
-                    <span class="mate-info">
-                      <h2>Andrew Fuller</h2>
-                      <p>Team Lead</p>
-                    </span>
-                  </div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('nancy')" alt="Nancy Leverling" />
-                    <span class="mate-info">
-                      <h2>Nancy Leverling</h2>
-                      <p>Sales Associate</p>
-                    </span>
-                  </div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('robert')" alt="Robert King" />
-                    <span class="mate-info">
-                      <h2>Robert King</h2>
-                      <p>Business System Analyst</p>
-                    </span>
-                  </div>
-                </div>
-              </ng-template>
-            </kendo-panelbar-item>
-            <kendo-panelbar-item [expanded]="false">
-              <ng-template kendoPanelBarItemTitle>
-                <div class="d-flex bd-highlight w-100">
-                  <div class="col col-lg-6">Activity Type</div>
-                  <div class="col col-lg-6 text-end">
-                    <kendo-chip [removable]="true" (remove)="onRemove($event)">
-                      <span class="custom-content">1 Applied</span>
-                    </kendo-chip>
-                  </div>
-                </div>
-              </ng-template>
-              <ng-template kendoPanelBarContent>
-                <div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('andrew')" alt="Andrew Fuller" />
-                    <span class="mate-info">
-                      <h2>Andrew Fuller</h2>
-                      <p>Team Lead</p>
-                    </span>
-                  </div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('nancy')" alt="Nancy Leverling" />
-                    <span class="mate-info">
-                      <h2>Nancy Leverling</h2>
-                      <p>Sales Associate</p>
-                    </span>
-                  </div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('robert')" alt="Robert King" />
-                    <span class="mate-info">
-                      <h2>Robert King</h2>
-                      <p>Business System Analyst</p>
-                    </span>
-                  </div>
-                </div>
-              </ng-template>
-            </kendo-panelbar-item>
-            <kendo-panelbar-item [expanded]="false">
-              <ng-template kendoPanelBarItemTitle>
-                <div class="d-flex bd-highlight w-100">
-                  <div class="col col-lg-6">Academic Skills</div>
-                  <div class="col col-lg-6 text-end">
-                    <kendo-chip [removable]="true" (remove)="onRemove($event)">
-                      <span class="custom-content">1 Applied</span>
-                    </kendo-chip>
-                  </div>
-                </div>
-              </ng-template>
-              <ng-template kendoPanelBarContent>
-                <div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('andrew')" alt="Andrew Fuller" />
-                    <span class="mate-info">
-                      <h2>Andrew Fuller</h2>
-                      <p>Team Lead</p>
-                    </span>
-                  </div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('nancy')" alt="Nancy Leverling" />
-                    <span class="mate-info">
-                      <h2>Nancy Leverling</h2>
-                      <p>Sales Associate</p>
-                    </span>
-                  </div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('robert')" alt="Robert King" />
-                    <span class="mate-info">
-                      <h2>Robert King</h2>
-                      <p>Business System Analyst</p>
-                    </span>
-                  </div>
-                </div>
-              </ng-template>
-            </kendo-panelbar-item>
-            <kendo-panelbar-item [expanded]="false">
-              <ng-template kendoPanelBarItemTitle>
-                <div class="d-flex bd-highlight w-100">
-                  <div class="col col-lg-6">Collections</div>
-                  <div class="col col-lg-6 text-end">
-                    <kendo-chip [removable]="true" (remove)="onRemove($event)">
-                      <span class="custom-content">1 Applied</span>
-                    </kendo-chip>
-                  </div>
-                </div>
-              </ng-template>
-              <ng-template kendoPanelBarContent>
-                <div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('andrew')" alt="Andrew Fuller" />
-                    <span class="mate-info">
-                      <h2>Andrew Fuller</h2>
-                      <p>Team Lead</p>
-                    </span>
-                  </div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('nancy')" alt="Nancy Leverling" />
-                    <span class="mate-info">
-                      <h2>Nancy Leverling</h2>
-                      <p>Sales Associate</p>
-                    </span>
-                  </div>
-                  <div class="teamMate">
-                    <img [src]="imageUrl('robert')" alt="Robert King" />
-                    <span class="mate-info">
-                      <h2>Robert King</h2>
-                      <p>Business System Analyst</p>
-                    </span>
-                  </div>
-                </div>
-              </ng-template>
-            </kendo-panelbar-item>
-          </kendo-panelbar>
+                </kendo-expansionpanel>
+              </div>
+            </ng-container>
+          </form>
         </div>
       </div>
     </div>

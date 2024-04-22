@@ -9,6 +9,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -28,7 +29,8 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
     GridModule,
     DropDownsModule,
     LayoutModule,
-    ButtonsModule
+    ButtonsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

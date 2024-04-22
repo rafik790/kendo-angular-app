@@ -8,8 +8,7 @@
 }
 
 .custom-content {
-    color: #3366cc;
-    font-weight: bold;
+    font-weight: small;
 }
 
 ::ng-deep .k-panelbar>.k-item>.k-link.k-selected,
@@ -28,7 +27,7 @@
 ::ng-deep .k-panelbar>.k-item>.k-link,
 ::ng-deep .k-panelbar>.k-panelbar-header>.k-link {
     color: black;
-    background-color: #ffffff;
+    background-color: #f9f9f9;
 }
 
 .teamMate:after {
