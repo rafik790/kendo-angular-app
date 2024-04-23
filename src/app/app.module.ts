@@ -10,6 +10,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FilterPanelComponent } from './filter-panel/filter-panel.component';
 
 
 
@@ -19,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FilterPanelComponent
   ],
   imports: [
     BrowserModule,

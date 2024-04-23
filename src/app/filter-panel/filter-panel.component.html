@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col col-12">
+      <form autocomplete="off" [formGroup]="searchForm">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Content Library</label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="contentLibrary" id="contentLibrary1"
+              formControlName="contentLibrary" value="SEL">
+            <label class="form-check-label" for="contentLibrary1">
+              SEL
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="contentLibrary" id="contentLibrary2"
+              formControlName="contentLibrary" value="MentalHealth">
+            <label class="form-check-label" for="contentLibrary2">
+              Health
+            </label>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 10px;">
+          <label for="exampleInputEmail1">Tier</label>
+          <kendo-dropdownlist [data]="tierListItems" textField="text" valueField="value" [valuePrimitive]="true" formControlName="tier">
+            <ng-template kendoDropDownListItemTemplate let-dataItem>
+              <span class="template">{{ dataItem.value }}</span> {{ dataItem.text }}
+            </ng-template>
+          </kendo-dropdownlist>
+        </div>
+        <ng-container formArrayName="filters">
+          <div class="form-group" *ngFor="let filterGroup of filterGroups;let i = index" [formGroupName]="i">
+            <kendo-expansionpanel [expanded]="false" expandIcon="k-icon k-font-icon k-i-plus"
+              collapseIcon="fa fa-minus">
+              <ng-template kendoExpansionPanelTitleDirective>
+                <div class="d-flex bd-highlight w-100">
+                  <div class="col col-lg-6">{{filterGroup.groupName}}</div>
+                  <div class="col col-lg-6 text-end">
+                    <kendo-chip [removable]="true" (remove)="onRemove($event,filterGroup)">
+                      <span class="custom-content">{{filterGroup.appliedCount}} Applied</span>
+                    </kendo-chip>
+                  </div>
+                </div>
+              </ng-template>
+              <div class="row ms-2">
+                <ng-container formArrayName="elemnts">
+                  <div *ngFor="let groupElement of filterGroup.dataList;let childCnt = index" [formGroupName]="childCnt">
+                    <div class="form-check mt-1">
+                      <input class="form-check-input" type="checkbox" id="grade1" formControlName="filter" (click)="filterCheckBoxHandler($event,groupElement)">
+                      <label class="form-check-label" for="grade1">
+                        {{groupElement.name}}
+                      </label>
+                    </div>
+                    <div class="form-group" *ngIf="groupElement.children.length>0 && groupElement.visibleChild===true" style="padding-left: 20px;">
+                     
+                      <kendo-dropdownlist [data]="groupElement.children" textField="name" valueField="id"
+                      [valuePrimitive]="true" formControlName="subElement">
+                        <ng-template kendoDropDownListItemTemplate let-dataItem>
+                          <span class="template">{{ dataItem.id }}</span> {{ dataItem.name }}
+                        </ng-template>
+                      </kendo-dropdownlist>
+
+                    </div>
+                  </div>
+
+                </ng-container>
+
+              </div>
+            </kendo-expansionpanel>
+          </div>
+        </ng-container>
+      </form>
+    </div>
+  </div>
