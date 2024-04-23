@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   public globeIcon: SVGIcon = globeIcon;
   public filterGroups: any[] = [];
   searchForm = this.fb.group({
-    contentLibrary: [],
+    contentLibrary: ['SEL'],
     tier: [],
     filters: this.fb.array([])
   });
