@@ -26,25 +26,39 @@ export class AppComponent implements OnInit {
   public dropDownItems: Category[] = categories;
   public defaultItem: Category = { text: "Filter by Category", value: null };
   public globeIcon: SVGIcon = globeIcon;
+  public selectedValue = 1;
+  public tierListItems: Array<{ text: string, value: number }> = [{
+    text: "Small", value: 1
+  }, {
+    text: "Medium", value: 2
+  }, {
+    text: "Large", value: 3
+  }]
   public filterGroups: any[] = [];
   searchForm = this.fb.group({
     contentLibrary: ['SEL'],
-    tier: [],
+    tier: [1],
     filters: this.fb.array([])
   });
 
   constructor(private service: ProductService,
     private fb: FormBuilder) {
     this.loadGridItems();
+    this.filterGroups = this.getFilterData();
+    this.populatFormBuilder(this.filterGroups);
+  }
+
+  private getFilterData() {
+    let filterList = [];
     let data: any = {
       groupID: 1,
       groupName: "Grade",
       appliedCount: 0,
       dataList: []
     }
-    data.dataList.push({ id: 1, name: "Kindergarten" });
-    data.dataList.push({ id: 2, name: "1st Grade" });
-    this.filterGroups.push(data);
+    data.dataList.push({ id: 1, name: "Kindergarten", children: [], visibleChild: false });
+    data.dataList.push({ id: 2, name: "1st Grade", children: [], visibleChild: false });
+    filterList.push(data);
 
     data = {
       groupID: 2,
@@ -52,9 +66,32 @@ export class AppComponent implements OnInit {
       appliedCount: 0,
       dataList: []
     }
-    data.dataList.push({ id: 3, name: "Domain" });
-    data.dataList.push({ id: 4, name: "Awareness" });
-    this.filterGroups.push(data);
+    data.dataList.push({ id: 3, name: "Awareness of Self", children: [], visibleChild: false });
+    let selfManagement: any = {
+      id: 4,
+      name: "Self Management",
+      visibleChild: false,
+      children: []
+    };
+    selfManagement.children.push({ id: 'Ch1', name: 'Stress Management' });
+    selfManagement.children.push({ id: 'Ch2', name: 'Self Control' });
+    selfManagement.children.push({ id: 'Ch3', name: 'Resilience' });
+    selfManagement.children.push({ id: 'Ch10', name: 'Problem Solving' });
+    data.dataList.push(selfManagement);
+
+    let socialSkill: any = {
+      id: 5,
+      name: "Social Skills",
+      visibleChild: false,
+      children: []
+    };
+    socialSkill.children.push({ id: 'Ch4', name: 'Social Skills-1' });
+    socialSkill.children.push({ id: 'Ch5', name: 'Social Skills-2' });
+    socialSkill.children.push({ id: 'Ch6', name: 'Social Skills-3' });
+    socialSkill.children.push({ id: 'Ch7', name: 'Social Skills-4' });
+    data.dataList.push(socialSkill);
+
+    filterList.push(data);
 
     data = {
       groupID: 3,
@@ -62,20 +99,22 @@ export class AppComponent implements OnInit {
       appliedCount: 0,
       dataList: []
     }
-    data.dataList.push({ id: 10, name: "Individual" });
-    data.dataList.push({ id: 11, name: "Partner" });
-    data.dataList.push({ id: 12, name: "Small Group" });
-    data.dataList.push({ id: 13, name: "Whole Group" });
+    data.dataList.push({ id: 10, name: "Individual", children: [], visibleChild: false });
+    data.dataList.push({ id: 11, name: "Partner", children: [], visibleChild: false });
+    data.dataList.push({ id: 12, name: "Small Group", children: [], visibleChild: false });
+    data.dataList.push({ id: 13, name: "Whole Group", children: [], visibleChild: false });
 
-    this.filterGroups.push(data);
-    this.populatFormBuilder(this.filterGroups);
+    filterList.push(data);
+    return filterList;
   }
 
   ngOnInit(): void {
     this.searchForm.valueChanges.subscribe(data => {
       let formDataCopy: any = { ...this.searchForm.value };
       let filteredList = [];
+
       for (let filterData of formDataCopy.filters) {
+
         let filterArray = filterData.elemnts.filter((o: any) => o.filter === true);
         if (filterArray && filterArray.length > 0) {
           filteredList.push({
@@ -101,6 +140,7 @@ export class AppComponent implements OnInit {
 
   public populatFormBuilder(dataList: any[]) {
     for (let grpElement of dataList) {
+
       const requirementForm = this.fb.group({
         groupID: grpElement.groupID,
         groupName: [grpElement.groupName],
@@ -109,10 +149,16 @@ export class AppComponent implements OnInit {
       this.filterFormGroups.push(requirementForm);
 
       for (let groupdata of grpElement.dataList) {
+        let selChild = '';
+        if (groupdata.children.length > 0) {
+          selChild = groupdata.children[0].id
+        }
+
         const childForm = this.fb.group({
           filterID: [groupdata.id],
           filterName: [groupdata.name],
-          filter: [false]
+          filter: [false],
+          subElement: [selChild]
         });
 
         (requirementForm.controls.elemnts as FormArray).push(childForm);
@@ -160,8 +206,15 @@ export class AppComponent implements OnInit {
         }
       }
     }
-    
+
     let groupDatas = this.filterGroups.filter((o: any) => o.groupID === filterGroup.groupID);
     groupDatas[0].appliedCount = 0;
+  }
+  public filterCheckBoxHandler(event:any,groupElement:any){
+    if(event.target.checked){
+      groupElement.visibleChild=true;
+    }else{
+      groupElement.visibleChild=false;
+    }
   }
 }
