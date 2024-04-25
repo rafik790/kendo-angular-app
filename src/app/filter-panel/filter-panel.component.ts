@@ -141,9 +141,8 @@ export class FilterPanelComponent implements OnInit {
           filterID: [groupdata.id],
           filterName: [groupdata.name],
           filter: [false],
-          subElement: [selChild]
+          sub: this.fb.array([])
         });
-
         (requirementForm.controls.elemnts as FormArray).push(childForm);
       }
     }

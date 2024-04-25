@@ -68,31 +68,3 @@
     vertical-align: top;
 }
 
-
-.k-icon {
-    display: block;
-    clear: both;
-    margin: 0 auto 10px;
-    color: #656565;
-    font-size: 32px;
-}
-
-.k-expander *,
-.k-expander *::before,
-.k-expander *::after {
-    box-sizing: border-box;
-}
-
-.k-expander {
-    border-color: rgba(0, 0, 0, 0.08);
-    color: #424242;
-    background-color: #ffffff;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-}
-.k-expander.k-focus {
-    border-top: none;
-    border-left: none;
-    border-right: none;
-}
